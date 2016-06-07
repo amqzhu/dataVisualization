@@ -32,7 +32,9 @@ var x = d3.time.scale()
 var y = d3.scale.linear()
     .range([height, 0]);
 
-var color = d3.scale.category10();
+	var color = d3.scale.ordinal()
+    .range(["#1f77b4", "#d62728", "#2ca02c", "#ffbb78"]);
+//var color = d3.scale.category10();
 
 var xAxis = d3.svg.axis()
     .scale(x)
@@ -46,7 +48,7 @@ var yAxis = d3.svg.axis()
 var line = d3.svg.line()
     .interpolate("basis")
     .x(function(d) { return x(d.Year); })
-    .y(function(d) { return y(d.temperature); });
+    .y(function(d) { return y(d.percentage); });
 
 var svg = d3.select("p").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -54,7 +56,7 @@ var svg = d3.select("p").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("spreadsheets/side_by_side.csv", function(error, data) {
+d3.csv("spreadsheets/diabetes_adiposity.csv", function(error, data) {
   if (error) throw error;
 
   color.domain(d3.keys(data[0]).filter(function(key) { return key !== "Year"; }));
@@ -63,11 +65,11 @@ d3.csv("spreadsheets/side_by_side.csv", function(error, data) {
     d.Year = parseDate(d.Year);
   });
 
-  var cities = color.domain().map(function(name) {
+  var percs = color.domain().map(function(name) {
     return {
       name: name,
       values: data.map(function(d) {
-        return {Year: d.Year, temperature: +d[name]};
+        return {Year: d.Year, percentage: +d[name]};
       })
     };
   });
@@ -76,7 +78,7 @@ d3.csv("spreadsheets/side_by_side.csv", function(error, data) {
 
   y.domain([
     0,
-    d3.max(cities, function(c) { return d3.max(c.values, function(v) { return v.temperature; }); })
+    d3.max(percs, function(c) { return d3.max(c.values, function(v) { return v.percentage; }); })
   ]);
   
   
@@ -95,20 +97,32 @@ d3.csv("spreadsheets/side_by_side.csv", function(error, data) {
       .style("text-anchor", "end")
       .text("Prevalence");
 
-  var city = svg.selectAll(".city")
-      .data(cities)
+  var per = svg.selectAll(".per")
+      .data(percs)
     .enter().append("g")
-      .attr("class", "city");
+      .attr("class", "per");
 
-  city.append("path")
+  per.append("path")
       .attr("class", "line")
       .attr("d", function(d) { return line(d.values); })
       .style("stroke", function(d) { return color(d.name); });
 
-  city.append("text")
-      .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
-      .attr("transform", function(d) { return "translate(" + x(d.value.Year) + "," + y(d.value.temperature) + ")"; })
-      .attr("x", 3)
+	var legend = svg.selectAll(".legend")
+      .data(color.domain().slice().reverse())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 600)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 604)
+      .attr("y", 9)
       .attr("dy", ".35em")
-      .text(function(d) { return d.name; });
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
 });

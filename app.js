@@ -34,7 +34,7 @@ function addAxesAndLegend (svg, xAxis, yAxis, margin, chartWidth, chartHeight) {
   legend.append('text')
     .attr('x', 115)
     .attr('y', 25)
-    .text('Women Interval');
+    .text('Women');
 
   legend.append('rect')
     .attr('class', 'male')
@@ -46,25 +46,16 @@ function addAxesAndLegend (svg, xAxis, yAxis, margin, chartWidth, chartHeight) {
   legend.append('text')
     .attr('x', 115)
     .attr('y', 55)
-    .text('Men Interval');
+    .text('Men');
 
   legend.append('path')
     .attr('class', 'w')
-    .attr('d', 'M10,80L85,80');
+    .attr('d', 'M10,25L85,25');
 
-  legend.append('text')
-    .attr('x', 115)
-    .attr('y', 85)
-    .text('Women');
 	
 	legend.append('path')
     .attr('class', 'm')
-    .attr('d', 'M10,110L85,110');
-
-  legend.append('text')
-    .attr('x', 115)
-    .attr('y', 115)
-    .text('Men');
+    .attr('d', 'M10,45L85,45');
 }
 
 function drawPaths (svg, data, x, y) {

@@ -21,8 +21,8 @@ function display(data) {
 
 
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 1400 - margin.left - margin.right,
-    height = 700 - margin.top - margin.bottom;
+    width = 1200 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
 
 var x0 = d3.scale.ordinal()
     .rangeRoundBands([0, width], .25);
@@ -33,7 +33,7 @@ var y = d3.scale.linear()
     .range([height, 0]);
 
 var color = d3.scale.ordinal()
-    .range(["#aec7e8", "#ff9896"]);
+    .range(["#aec7e8", "#2ca02c"]);
 
 var xAxis = d3.svg.axis()
     .scale(x0)
@@ -44,13 +44,13 @@ var yAxis = d3.svg.axis()
     .orient("left")
     .tickFormat(d3.format("%"));
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("p").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("side_by_side.csv", function(error, data) {
+d3.csv("spreadsheets/diabetes_adiposity_men.csv", function(error, data) {
   if (error) throw error;
 
   var prevNames = d3.keys(data[0]).filter(function(key) { return key !== "Year"; });
@@ -100,13 +100,13 @@ d3.csv("side_by_side.csv", function(error, data) {
       .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
   legend.append("rect")
-      .attr("x", width - 1200)
+      .attr("x", width - 1000)
       .attr("width", 18)
       .attr("height", 18)
       .style("fill", color);
 
   legend.append("text")
-      .attr("x", width - 1204)
+      .attr("x", width - 1004)
       .attr("y", 9)
       .attr("dy", ".35em")
       .style("text-anchor", "end")
