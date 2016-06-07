@@ -1,0 +1,56 @@
+svg {
+  font: 14px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  fill: #000;
+}
+
+.axis .tick line {
+  stroke: rgba(0, 0, 0, 0);
+}
+
+.area {
+  stroke-width: 1;
+}
+
+.area.female,
+.legend .female {
+  fill: #ff9896;
+  stroke: #ff9896;
+  opacity: 0.1;
+}
+
+.area.male,
+.legend .male {
+  fill: #aec7e8;
+  stroke: #aec7e8;
+  opacity: 0.1;
+}
+
+.m,
+.legend .m {
+  fill: none;
+  stroke: #aec7e8;
+  stroke-width: 4;
+}
+
+.w,
+.legend .w {
+  fill: none;
+  stroke: #ff9896;
+  stroke-width: 4;
+}
+
+.legend .legend-bg {
+  fill: #fff;
+  stroke: #fff;
+  opacity: 0.5;
+}
