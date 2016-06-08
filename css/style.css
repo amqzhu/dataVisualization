@@ -22,3 +22,11 @@ body {
   stroke: steelblue;
   stroke-width: 3.5px;
 }
+
+form {
+  text-align: right;
+}
+
+.text{
+  color: black;
+}
